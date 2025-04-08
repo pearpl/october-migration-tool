@@ -84,6 +84,10 @@ set_time_limit(0);
 // Increase memory limit
 ini_set('memory_limit', '512M');
 
+// Increase upload file size limit to 100MB
+ini_set('upload_max_filesize', '100M');
+ini_set('post_max_size', '100M');
+
 // PHP Version compatibility check
 $versionFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'php_versions.json';
 $currentPhpVersion = phpversion();
@@ -574,10 +578,6 @@ function createDatabaseDump($host, $username, $password, $database, $outputFile)
     echo "/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;\n";
     echo "/*!40101 SET NAMES utf8mb4 */;\n\n";
     
-    echo "-- Database: `" . $database . "`\n\n";
-    echo "CREATE DATABASE IF NOT EXISTS `" . $database . "` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\n";
-    echo "USE `" . $database . "`;\n\n";
-    
     // Process each table
     foreach ($tables as $table) {
         // Get create table statement
@@ -625,10 +625,6 @@ function createDatabaseDump($host, $username, $password, $database, $outputFile)
         
         echo "\n\n";
     }
-    
-    echo "/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;\n";
-    echo "/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;\n";
-    echo "/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;\n";
     
     // Get output buffer content
     $output = ob_get_clean();
@@ -952,10 +948,11 @@ $dbName = isset($dbConfig['database']) && !empty($dbConfig['database']) ? $dbCon
         <div class="section">
             <h2>Unzip Archive</h2>
             <p>This will extract a zip archive to the <?php echo $inMigrationFolder ? 'parent directory' : 'current directory'; ?>.</p>
+            <p><small>Note: You can upload files up to 100MB in size.</small></p>
             <form method="post" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="unzip">
                 <div class="form-group">
-                    <label for="zipfile">Upload Zip File:</label>
+                    <label for="zipfile">Upload Zip File (max 100MB):</label>
                     <input type="file" id="zipfile" name="zipfile">
                 </div>
                 <p>OR</p>

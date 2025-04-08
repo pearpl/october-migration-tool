@@ -1,0 +1,16 @@
+
+# Ignore macOS system files
+.DS_Store
+
+# OctoberCMS and PHP defaults
+/vendor/
+/storage/
+/.env
+.phpunit.result.cache
+node_modules/
+npm-debug.log
+yarn-error.log
+.idea/
+*.log
+*.sql
+*.zip
